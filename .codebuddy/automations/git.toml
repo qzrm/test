@@ -1,0 +1,27 @@
+# CodeBuddy 自动化：每日同步代码到 Git
+# 团队共享配置。clone 本仓库后，CodeBuddy 会据此创建/更新同名自动化任务。
+# 任务由 CodeBuddy 在本地维护运行时状态，此文件仅作为声明式配置源。
+
+version = 1
+id = "git"
+name = "每日同步代码到Git"
+status = "ACTIVE"
+scheduleType = "recurring"
+# 每天 09:00 触发一次
+rrule = "FREQ=DAILY;INTERVAL=1;BYHOUR=9;BYMINUTE=0"
+# 任务作用的工作区目录
+cwds = ["d:/src/Git/test"]
+
+[prompt]
+# 任务执行内容
+text = """
+将当前 Git 仓库（d:/src/Git/test）的本地改动同步到远程仓库 origin/master。
+步骤：
+1) 进入仓库目录 d:/src/Git/test；
+2) 执行 git status 查看改动；
+3) 若有改动，git add 相关文件（遵循已有 .gitignore，不要 add 敏感/构建产物），用清晰的中文提交信息 git commit；
+4) 执行 git pull --rebase（如有冲突先暂停并报告用户）；
+5) 执行 git push origin master；
+6) 报告最终结果（提交哈希、推送状态）。
+若无任何改动则报告"无改动，无需同步"。
+"""
